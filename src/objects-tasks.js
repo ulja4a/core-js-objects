@@ -35,20 +35,13 @@ function shallowCopy(obj) {
  *    mergeObjects([]) => {}
  */
 function mergeObjects(objects) {
-  const newObj = {};
-  for (let i = 0; i < objects.length; i += 1) {
-    const obj = objects[i];
-    const keys = Object.keys(obj);
-    for (let j = 0; j < keys.length; j += 1) {
-      const key = keys[j];
-      if (key in newObj) {
-        newObj[key] += obj[key];
-      } else {
-        newObj[key] = obj[key];
-      }
-    }
-  }
-  return newObj;
+  const newObj = new Map();
+  objects.forEach((obj) => {
+    Object.entries(obj).forEach(([key, value]) => {
+      newObj.set(key, (newObj.get(key) || 0) + value);
+    });
+  });
+  return Object.fromEntries(newObj);
 }
 
 /**
@@ -104,8 +97,7 @@ function compareObjects(obj1, obj2) {
  *    isEmptyObject({a: 1}) => false
  */
 function isEmptyObject(obj) {
-  const newObj = {};
-  return JSON.stringify(obj) === JSON.stringify(newObj);
+  return Object.keys(obj).length === 0;
 }
 
 /**
@@ -124,8 +116,8 @@ function isEmptyObject(obj) {
  *    immutableObj.newProp = 'new';
  *    console.log(immutableObj) => {a: 1, b: 2}
  */
-function makeImmutable(/* obj */) {
-  throw new Error('Not implemented');
+function makeImmutable(obj) {
+  return Object.freeze(obj);
 }
 
 /**
