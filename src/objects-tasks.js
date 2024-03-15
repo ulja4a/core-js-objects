@@ -130,8 +130,14 @@ function makeImmutable(obj) {
  *    makeWord({ a: [0, 1], b: [2, 3], c: [4, 5] }) => 'aabbcc'
  *    makeWord({ H:[0], e: [1], l: [2, 3, 8], o: [4, 6], W:[5], r:[7], d:[9]}) => 'HelloWorld'
  */
-function makeWord(/* lettersObject */) {
-  throw new Error('Not implemented');
+function makeWord(lettersObject) {
+  const arr = [];
+  Object.entries(lettersObject).forEach(([key, value]) => {
+    value.forEach((index) => {
+      arr[index] = key;
+    });
+  });
+  return arr.join('');
 }
 
 /**
@@ -148,8 +154,41 @@ function makeWord(/* lettersObject */) {
  *    sellTickets([25, 25, 50]) => true
  *    sellTickets([25, 100]) => false (The seller does not have enough money to give change.)
  */
-function sellTickets(/* queue */) {
-  throw new Error('Not implemented');
+function sellTickets(queue) {
+  const change = {
+    25: 1,
+    50: 0,
+    100: 0,
+  };
+  for (let i = 0; i < queue.length; i += 1) {
+    if (queue[i] === 25) {
+      change[25] += 1;
+    }
+    if (queue[i] === 50) {
+      if (change[25] > 0) {
+        change[25] -= 1;
+        change[50] += 1;
+      } else {
+        return false;
+      }
+    }
+    if (queue[i] === 100) {
+      if (change[50] > 0 && change[25] > 0) {
+        change[50] -= 1;
+        change[25] -= 1;
+      }
+      if (change[25] >= 3) {
+        change[25] -= 3;
+      } else {
+        return false;
+      }
+      change[100] += 1;
+    }
+    if (change[25] < 0 || change[50] < 0 || change[100] < 0) {
+      return false;
+    }
+  }
+  return true;
 }
 
 /**
