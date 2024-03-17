@@ -326,10 +326,6 @@ function sortCitiesArray(arr) {
  */
 function group(/* array, keySelector, valueSelector */) {
   throw new Error('Not implemented');
-   /*const newMap = new Map();
-  return newMap.set.array.map(function groupElement(element) {
-    element = element.country;
-  });*/
 }
 
 /**
