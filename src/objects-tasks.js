@@ -156,7 +156,7 @@ function makeWord(lettersObject) {
  */
 function sellTickets(queue) {
   const change = {
-    25: 1,
+    25: 0,
     50: 0,
     100: 0,
   };
@@ -184,7 +184,7 @@ function sellTickets(queue) {
       }
       change[100] += 1;
     }
-    if (change[25] < 0 || change[50] < 0 || change[100] < 0) {
+    if (change[25] <= 0 && change[50] <= 0 && change[100] <= 0) {
       return false;
     }
   }
@@ -204,8 +204,18 @@ function sellTickets(queue) {
  *    console.log(r.height);      // => 20
  *    console.log(r.getArea());   // => 200
  */
-function Rectangle(/* width, height */) {
-  throw new Error('Not implemented');
+function Rectangle(width, height) {
+  class RectangleClass {
+    constructor(widthRec, heightRac) {
+      this.width = widthRec;
+      this.height = heightRac;
+    }
+
+    getArea() {
+      return this.width * this.height;
+    }
+  }
+  return new RectangleClass(width, height);
 }
 
 /**
@@ -218,8 +228,8 @@ function Rectangle(/* width, height */) {
  *    [1,2,3]   =>  '[1,2,3]'
  *    { width: 10, height : 20 } => '{"height":10,"width":20}'
  */
-function getJSON(/* obj */) {
-  throw new Error('Not implemented');
+function getJSON(obj) {
+  return JSON.stringify(obj);
 }
 
 /**
@@ -263,8 +273,25 @@ function fromJSON(/* proto, json */) {
  *      { country: 'Russia',  city: 'Saint Petersburg' }
  *    ]
  */
-function sortCitiesArray(/* arr */) {
-  throw new Error('Not implemented');
+function sortCitiesArray(arr) {
+  return arr.sort(function compareCities(a, b) {
+    if (a.country === b.country) {
+      if (a.city > b.city) {
+        return 1;
+      }
+      if (a.city < b.city) {
+        return -1;
+      }
+      return 0;
+    }
+    if (a.country > b.country) {
+      return 1;
+    }
+    if (a.country < b.country) {
+      return -1;
+    }
+    return 0;
+  });
 }
 
 /**
@@ -299,6 +326,10 @@ function sortCitiesArray(/* arr */) {
  */
 function group(/* array, keySelector, valueSelector */) {
   throw new Error('Not implemented');
+   /*const newMap = new Map();
+  return newMap.set.array.map(function groupElement(element) {
+    element = element.country;
+  });*/
 }
 
 /**
